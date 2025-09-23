@@ -1,0 +1,30 @@
+# Makefile for Jojo ERC20 project
+
+# Variables
+RPC_URL ?= $(SEPOLIA_RPC_URL)
+ETHERSCAN_KEY ?= $(ETHERSCAN_API_KEY)
+PRIVATE_KEY ?= $(PRIVATE_KEY)
+
+# Default target
+all: build test
+
+# Compile contracts
+build:
+	forge build
+
+# Run tests
+test:
+	forge test -vv
+
+# Deploy to Sepolia
+deploy:
+	forge script script/DeployJojoERC20.s.sol \
+		--rpc-url $(RPC_URL) \
+		--private-key $(PRIVATE_KEY) \
+		--broadcast \
+		--verify \
+		--etherscan-api-key $(ETHERSCAN_KEY)
+
+# Clean cache + artifacts
+clean:
+	forge clean
